@@ -13,18 +13,18 @@ class Utils {
         var leadingAnchor : NSLayoutConstraint? = nil
         var trailingAnchor : NSLayoutConstraint? = nil
         var bottomAnchor : NSLayoutConstraint? = nil
-        //        var heightAnchor : NSLayoutConstraint? = nil
-        //        var widthAnchor : NSLayoutConstraint? = nil
+        var widthAnchor : NSLayoutConstraint? = nil
+        var heightAnchor : NSLayoutConstraint? = nil
     }
-    
-    // TODO: height and wwidth optional constraints
     
     public static func SetupContrains(
         child : UIView, parent: UILayoutGuide,
         top: Bool = true, topConstant: CGFloat? = nil, topTarget: NSLayoutAnchor<NSLayoutYAxisAnchor>? = nil,
         leading:Bool = true, leadingConstant: CGFloat? = nil, leadingTarget: NSLayoutAnchor<NSLayoutXAxisAnchor>? = nil,
         trailing:Bool = true, trailingConstant: CGFloat? = nil, trailingTarget: NSLayoutAnchor<NSLayoutXAxisAnchor>? = nil,
-        bottom:Bool = true, bottomConstant: CGFloat? = nil, bottomTarget: NSLayoutAnchor<NSLayoutYAxisAnchor>? = nil
+        bottom:Bool = true, bottomConstant: CGFloat? = nil, bottomTarget: NSLayoutAnchor<NSLayoutYAxisAnchor>? = nil,
+        width: Bool = false, widthConstant: CGFloat? = nil,
+        height: Bool = false, heightConstant: CGFloat? = nil
     ) -> Contraints {
         child.translatesAutoresizingMaskIntoConstraints = false
         var constraints : Contraints = Contraints()
@@ -68,6 +68,27 @@ class Utils {
             }
             constraints.bottomAnchor?.isActive = true
         }
+        
+        if width {
+            if let constant = widthConstant {
+                constraints.widthAnchor = child.widthAnchor.constraint(equalToConstant: constant)
+            } else {
+                // TODO: What do you do if it gets here?!
+                print("widthConstant isn't set while width is enabled")
+            }
+            constraints.widthAnchor?.isActive = true
+        }
+        
+        if height {
+            if let constant = heightConstant {
+                constraints.heightAnchor = child.heightAnchor.constraint(equalToConstant: constant)
+            } else {
+                // TODO: What do you do if it gets here?!
+                print("heightConstant isn't set while height is enabled")
+            }
+            constraints.heightAnchor?.isActive = true
+        }
+        
         return constraints
     }
 }
